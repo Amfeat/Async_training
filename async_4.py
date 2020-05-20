@@ -10,5 +10,11 @@ def gen_filename():
     while True:
         pattern = 'file-{}.jpeg'
         t = int(time() * 1000)
+
         yield pattern.format(str(t))
+
+
+
 g = gen_filename()
+
+# функция next(g) сдвигает выполнение программы до следущего yield
