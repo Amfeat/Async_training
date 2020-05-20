@@ -24,5 +24,5 @@ while True:
             response = "Hello world\n".encode()
             client_socket.send(response)
 
-    print("outside")
+#    print("outside")
     client_socket.close()
