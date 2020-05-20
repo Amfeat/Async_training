@@ -5,9 +5,10 @@
 
 from time import time
 
-# пример генератора, который при каждом обращении >>> next(gen_filename()) возвращает новую строку
+# пример генератора, который при каждом обращении >>> next(g) возвращает новую строку
 def gen_filename():
     while True:
         pattern = 'file-{}.jpeg'
         t = int(time() * 1000)
         yield pattern.format(str(t))
+g = gen_filename()
