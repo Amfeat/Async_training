@@ -5,8 +5,8 @@
 import socket
 from select import select
 
-tasks = []
-to_read = {}
+tasks = []  # список для задач в "карусели"
+to_read = {}  # словарь для чтения ключ - сокет, значение - функция для этого сокета
 to_write = {}
 
 
@@ -43,11 +43,17 @@ def client(client_socket):
 def event_loop():
     while any([tasks, to_read, to_write]):
         while not tasks:
-            ready_to_read, ready_to_write, _ = select(to_read, to_write, [])
+            ready_to_read, ready_to_write, _ = select(to_read, to_write, []) # от словарей берутся ключи
+
+            # добавляем значение ключей в список задач
             for sock in ready_to_read:
-                tasks.append(to_read.pop(sock))
+                a = to_read.pop(sock)  # just to see how it works
+                tasks.append(a)
+                print('add read', a)  # just to see how it works
             for sock in ready_to_write:
                 tasks.append(to_write.pop(sock))
+                print('add write')
+
 
         try:
             task = tasks.pop(0)
@@ -57,6 +63,7 @@ def event_loop():
                 to_read[sock] = task
             if reason == 'write':
                 to_write[sock] = task
+                print(to_write)
         except StopIteration:
             print('done!')
 
